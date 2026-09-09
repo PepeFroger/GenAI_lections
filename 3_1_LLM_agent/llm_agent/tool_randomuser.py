@@ -14,12 +14,14 @@ class RandomUserTool:
     def use(
             self,
             count: int = 1,
+            gender: Optional[str] = None,
+            nationality: Optional[str] = None,
             include_fields: Optional[List[str]] = None,
     )-> str:
         try:
             print(f"> Генерирует {count} пользователей...")
 
-            if count > 1:
+            if count < 1:
                 count = 1
             elif count > 500:
                 count = 500
@@ -30,6 +32,15 @@ class RandomUserTool:
                 "inc": "name,email,phone,cell,location,dob,picture,gender,nat,login",
                 "noinfo": True
             }
+
+            if gender and gender.lower() in ("male", "female"):
+                params["gender"] = gender.lower()
+                print(f"> Фильтр по полу: {gender}")
+
+            if nationality:
+                params["nat"] = nationality.upper()
+                print(f"> Фильтр по национальности: {nationality.upper()}")
+
             print(f"> Отправлет запрос...")
             response = requests.get("https://randomuser.me/api/", params=params, timeout=30)
             response.raise_for_status()
