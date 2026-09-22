@@ -6,14 +6,11 @@ def test_generates_user_with_default_fields():
     tool = RandomUserTool()
     result = tool.use(count=1)
 
-    # Ответ — валидный JSON-массив
     assert result.strip().startswith("[")
     assert result.strip().endswith("]")
-    # Вычисляемые поля присутствуют
     assert "full_name" in result
     assert "address" in result
-    # Реальные данные из randomuser.me
-    assert "@" in result  # email есть
+    assert "@" in result
 
 
 def test_include_fields_filters_output():
@@ -23,7 +20,6 @@ def test_include_fields_filters_output():
 
     assert "full_name" in result
     assert "email" in result
-    # Поля, которых не просили, не должны появиться
     assert "\"phone\"" not in result
     assert "\"cell\"" not in result
     assert "\"login\"" not in result
@@ -43,7 +39,6 @@ def test_count_is_clamped_to_max_500():
     tool = RandomUserTool()
     result = tool.use(count=10000)
 
-    # Считаем количество объектов верхнего уровня по "gender"
     assert result.count("\"gender\"") == 500
 
 
@@ -52,10 +47,9 @@ def test_empty_or_invalid_input_does_not_crash():
     tool = RandomUserTool()
     result = tool.use(count=0, gender="unknown", nationality="")
 
-    # Даже при странных параметрах возвращается непустая строка
     assert isinstance(result, str)
     assert len(result) > 0
-    assert "Ошибка" not in result  # API всё равно отдаёт данные
+    assert "Ошибка" not in result
 
 
 def test_use_is_callable_with_no_args():
