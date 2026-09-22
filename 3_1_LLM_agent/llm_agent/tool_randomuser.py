@@ -1,4 +1,4 @@
-# llm_agent/tool_random_user.py
+# llm_agent/tool_randomuser.py
 import json
 from typing import Optional, List, Dict, Any
 import requests
