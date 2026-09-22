@@ -35,7 +35,7 @@ def test_gender_and_nationality_filters():
 
 
 def test_count_is_clamped_to_max_500():
-    """count > 500 обрезается до 500."""
+    """count > 500 обрезается до 500"""
     tool = RandomUserTool()
     result = tool.use(count=10000)
 
